@@ -1,17 +1,12 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ImagePicker from '../../../components/meals/image-picker';
 import classes from './page.module.css';
 import FormSubmit from '../../../components/meals/mealFormSubmit';
 import AuthWrapper from '../../../components/Authwrapper';
 import { UpdateMeal } from '../../../lib/actions';
-import dynamic from 'next/dynamic';
 
-// Dynamically import the component with SSR disabled
-const ShareMealPage = dynamic(() => import('../../../components/ShareMealPage'), {
-  ssr: false,
-});
 export default function ShareMealPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -98,6 +93,7 @@ export default function ShareMealPage() {
 
     return (
         <AuthWrapper>
+            <Suspense fallback={<div>Loading...</div>}>
             <header className={classes.header}>
                 <h1>
                     Share your <span className={classes.highlight}>favorite meal</span>
@@ -176,6 +172,7 @@ export default function ShareMealPage() {
                     </p>
                 </form>
             </main>
+            </Suspense>
         </AuthWrapper>
     );
 }
