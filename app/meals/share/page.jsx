@@ -1,6 +1,5 @@
-'use client'
-export const dynamic = 'force-dynamic'; // Disable static generation
-import { useEffect, useState } from 'react';
+'use client';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ImagePicker from '../../../components/meals/image-picker';
 import classes from './page.module.css';
@@ -41,8 +40,6 @@ export default function ShareMealPage() {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        //const file= event.target.files[0];
-        
         try {
           if (isEditing) {
             console.log('edited data:', formData);
@@ -53,38 +50,30 @@ export default function ShareMealPage() {
             }
           } else {
             console.log('created data:', formData.image);
-            // Make a POST request to the API to create a new meal
-
-
             if(!formData.image) return 
             const data = new FormData();
-            data.append("file",formData.image);
-            data.append("upload_preset","First_Time_Using_Cloudinary");
-            data.append("cloud_name","diqynm3ie");
+            data.append("file", formData.image);
+            data.append("upload_preset", "First_Time_Using_Cloudinary");
+            data.append("cloud_name", "diqynm3ie");
 
-          const res = await fetch("https://api.cloudinary.com/v1_1/diqynm3ie/image/upload",{
-                method:"POST",
-                body:data
-            })
+            const res = await fetch("https://api.cloudinary.com/v1_1/diqynm3ie/image/upload", {
+                method: "POST",
+                body: data
+            });
             const uploadedImageUrl = await res.json();
-            console.log('url',uploadedImageUrl.url);
-           formData.image=uploadedImageUrl.url;
-            console.log('formadata after url:',formData);
+            formData.image = uploadedImageUrl.url;
+
             const response = await fetch('/api/meals', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(formData), // Send form data as JSON
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(formData),
             });
 
             if (!response.ok) {
               throw new Error('Failed to create meal');
             }
-
-            // Handle successful meal creation, e.g., redirect or show success message
           }
-          
+
           router.push('/meals'); // Navigate to meals page after successful submission
         } catch (error) {
           console.error('Submission failed:', error);
@@ -174,4 +163,13 @@ export default function ShareMealPage() {
             </main>
         </AuthWrapper>
     );
+}
+
+// Wrap the component inside Suspense
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ShareMealPage />
+    </Suspense>
+  );
 }
