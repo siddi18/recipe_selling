@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Meal from '../../../models/meal.model.js'; // Ensure this path is correct
 import AuthWrapper from '../../../components/Authwrapper.js';
 import classes from './page.module.css';
 import { getServerSession } from "next-auth/next";

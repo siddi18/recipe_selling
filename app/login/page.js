@@ -81,7 +81,7 @@ export default function Login() {
               )}
           </button>
           <p className={styles.paragraph}>
-            Don't have an account?{" "}
+          Don&apos;t have an account? {" "}
             <Link href="/CreateAccount" className={styles.link} onClick={handleSignup}>
             {
             loading ? (

@@ -26,6 +26,7 @@
     "xss": "^1.0.15"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.25.9",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "prisma": "^5.9.1"

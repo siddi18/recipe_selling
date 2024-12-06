@@ -36,7 +36,7 @@ const options = {
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         await connectToDatabase();
         const { email, password } = credentials;
         const user = await prisma.user.findUnique({

@@ -8,7 +8,7 @@ export default function RecipesLayout({ children }) {
   background: "linear-gradient(90deg, #f9572a, #ff9b05)",
   WebkitBackgroundClip: "text",
   backgroundClip: "text",
-  color: "transparent"
+  
 }}>
   Your Shared Recipes
 </h1>
