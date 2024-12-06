@@ -7,7 +7,7 @@ import FormSubmit from '../../../components/meals/mealFormSubmit';
 import AuthWrapper from '../../../components/Authwrapper';
 import { UpdateMeal } from '../../../lib/actions';
 
-export default function ShareMealPage() {
+function ShareMealPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [formData, setFormData] = useState({
