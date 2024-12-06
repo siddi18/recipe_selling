@@ -6,7 +6,12 @@ import classes from './page.module.css';
 import FormSubmit from '../../../components/meals/mealFormSubmit';
 import AuthWrapper from '../../../components/Authwrapper';
 import { UpdateMeal } from '../../../lib/actions';
+import dynamic from 'next/dynamic';
 
+// Dynamically import the component with SSR disabled
+const ShareMealPage = dynamic(() => import('../../../components/ShareMealPage'), {
+  ssr: false,
+});
 export default function ShareMealPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
