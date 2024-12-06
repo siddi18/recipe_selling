@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getUserMeals } from "../../../lib/meals";
 
 export async function GET(req) {
