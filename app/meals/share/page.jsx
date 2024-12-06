@@ -1,5 +1,6 @@
 'use client'
-import { useEffect, useState, Suspense } from 'react';
+export const dynamic = 'force-dynamic'; // Disable static generation
+import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ImagePicker from '../../../components/meals/image-picker';
 import classes from './page.module.css';
@@ -93,7 +94,6 @@ export default function ShareMealPage() {
 
     return (
         <AuthWrapper>
-            <Suspense fallback={<div>Loading...</div>}>
             <header className={classes.header}>
                 <h1>
                     Share your <span className={classes.highlight}>favorite meal</span>
@@ -172,7 +172,6 @@ export default function ShareMealPage() {
                     </p>
                 </form>
             </main>
-            </Suspense>
         </AuthWrapper>
     );
 }
