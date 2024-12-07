@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from './CreateAccount.module.css'; // Import CSS module
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Spinner from "../../components/Spinner";
 
 export default function CreateAccount() {
     const [name, setName] = useState('');
@@ -11,9 +12,11 @@ export default function CreateAccount() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState("");
     const router = useRouter();
+    const [isSharing, setIsSharing] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSharing(true)
         try {
             const response = await axios.post('/api/users', {
                 name,
@@ -37,6 +40,7 @@ export default function CreateAccount() {
                     console.log("Sign-in successful!", signInResponse);
                 }
             }
+            setIsSharing(false);
             router.push('/');
         } catch (error) {
             if (error.response && error.response.status === 400) {
@@ -91,7 +95,13 @@ export default function CreateAccount() {
                             className={styles.Input}
                         />
                     </div>
-                    <button type="submit" className={styles.btn}>Create User</button>
+                    <button type="submit" className={styles.btn}>
+                    {isSharing ? (
+              <Spinner />
+            ) : (
+              "Create User"
+            )}
+                        </button>
                     
                 </form>
             </div>

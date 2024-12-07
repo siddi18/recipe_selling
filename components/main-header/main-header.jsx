@@ -9,19 +9,17 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import RotateLoader from "react-spinners/RotateLoader";
+import Spinner from '../Spinner';
 
 export default function MainHeader() {
   const { data: session, status } = useSession();
-  const [loading, setLoading] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
   const router = useRouter();
 
   const handleLogin = async () => {
-    setLoading(true); // Show spinner
-    try {
-      await router.push('/login'); // Wait for navigation
-    } finally {
-      setLoading(false); // Hide spinner (optional)
-    }
+    setIsSharing(true);
+          router.push('/login'); // Wait for navigation
+          setIsSharing(false);
   };
 
   // Get the first letter of the user's email if logged in
@@ -60,11 +58,13 @@ export default function MainHeader() {
                     </div>
                   </div>
                 </div>
-              ) : loading ? (
-                <RotateLoader color={'#ffffff'} loading={loading} size={10} />
-              ) : (
-                <button className={classes.btn} onClick={handleLogin}>
-                  Sign In / Sign Up
+              ) : 
+                (<button className={classes.btn} onClick={handleLogin}>
+                  {isSharing ? (
+              <Spinner />
+            ) : (
+              "Sign in"
+            )}
                 </button>
               )}
             </li>

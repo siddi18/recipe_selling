@@ -102,3 +102,8 @@ General Folder Structure for a Blog Example:
 ├── .env                              # Environment variables (DB credentials, etc.)
 ├── next.config.js                    # Next.js configuration
 └── package.json                      # Project dependencies and scripts
+
+
+
+
+sometimes going with gemini is best, cause it solved my loading spinner proble which wasted my 3 hours.

@@ -1,15 +1,31 @@
-'use client'; // Ensure client-side rendering
-
-import Link from 'next/link'; // Import Link for navigation
+'use client'
+import Image from 'next/image';
+import Link from 'next/link';
 import classes from './meal-item.module.css';
+import Spinner from '../Spinner';
+import { useState } from "react";
 
 export default function MealItem({ title, slug, image, summary, creator }) {
+  const [isSharing, setIsSharing] = useState(false);
+
+  const handleShareClick = () => {
+    setIsSharing(true);
+  };
   return (
     <article className={classes.meal}>
       <header>
         <div className={classes.image}>
-          <img src={image} alt={title} />
+          <Image
+            src={image}
+            alt={title}
+            fill // Replaces `layout="fill"`
+            style={{
+              objectFit: 'cover', // Replaces `objectFit="cover"`
+            }}
+          />
         </div>
+
+
         <div className={classes.headerText}>
           <h2>{title}</h2>
           <p>by {creator}</p>
@@ -18,9 +34,14 @@ export default function MealItem({ title, slug, image, summary, creator }) {
       <div className={classes.content}>
         <div><p className={classes.summary}>{summary}</p></div>
         <div className={classes.spaces}>
-          <Link href={`/meals/${slug}`} className={classes.card__button}>
-            View Details
+          <Link href={`/meals/${slug}`} className={classes.card__button} prefetch={false} onClick={handleShareClick}>
+          {isSharing ? (
+              <Spinner />
+            ) : (
+              "View Details"
+            )}
           </Link>
+
         </div>
       </div>
     </article>

@@ -1,13 +1,15 @@
 "use client";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import styles from "./login.module.css";
 import Link from "next/link";
-import RotateLoader from "react-spinners/RotateLoader";
-
+import Spinner from "../../components/Spinner";
 
 export default function Login() {
+  const [isSharing, setIsSharing] = useState(false);
+  const [isSharings, setIsSharings] = useState(false);
+
   const { status } = useSession();
   const router = useRouter();
 
@@ -18,31 +20,22 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
 
   const handleSignIn = (e) => {
+    setIsSharing(true);
     e.preventDefault();
-    setLoading(true);
-    try{
-    signIn("credentials", { email, password, redirect: false }).then( async(e)=>{
-        if(e.error){
-            setError("Invalid email/password")
-        } else{
-            router.push("/");
-        }
-      })}finally{
-        setLoading(false);
+    signIn("credentials", { email, password, redirect: false }).then((res) => {
+      if (res.error) {
+        setError("Invalid email/password");
+      } else {
+        router.push("/");
       }
-    
+    });
   };
+
   const handleSignup = async () => {
-    setLoading(true); // Show spinner
-    try {
-      await router.push('/CreateAccount'); // Wait for navigation
-    } finally {
-      setLoading(false); // Hide spinner (optional)
-    }
+    setIsSharings(true);
+    router.push('/CreateAccount');
   };
 
   return (
@@ -73,32 +66,33 @@ export default function Login() {
             />
           </div>
           <button type="submit" className={`${styles.btn} ${styles.loginBtn}`}>
-          {
-            loading ? (
-                <RotateLoader color={'#ffffff'} loading={loading} size={10} />
-              ) : (              
-                  <span>Login </span>              
-              )}
+          {isSharing ? (
+              <Spinner />
+            ) : (
+              "Login"
+            )}
           </button>
           <p className={styles.paragraph}>
           Don&apos;t have an account? {" "}
-            <Link href="/CreateAccount" className={styles.link} onClick={handleSignup}>
-            {
-            loading ? (
-                <RotateLoader color={'#ffffff'} loading={loading} size={10} />
-              ) : (              
-                  <span>Sign Up </span>              
-              )}
+          <Suspense fallback={<Spinner />}>
+            <Link href="/CreateAccount" className={styles.link} prefetch={false} onClick={handleSignup}>
+            {isSharings ? (
+              <Spinner />
+            ) : (
+              "Sign Up"
+            )}
             </Link>
+            </Suspense>
           </p>
         </form>
+        
 
         <div className={styles.orContainer}>
           <hr className={styles.divider} />
           <span className={styles.orText}>or</span>
           <hr className={styles.divider} />
         </div>
-
+        <Suspense fallback={<Spinner />}>
         <button
           className={`${styles.socialButton} ${styles.btn}`}
           onClick={() => signIn("google")}
@@ -136,7 +130,7 @@ export default function Login() {
           </span>
           <span>Sign in with Google</span>
         </button>
-
+        </Suspense>
         <button
           className={`${styles.socialButton} ${styles.btn}`}
           onClick={() => signIn("github")}

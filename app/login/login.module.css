@@ -38,7 +38,7 @@
 }
 
 .link {
-    color: #017156;
+    color: #ee7614;
     font-weight: bold;
     text-decoration: none;
 }
@@ -89,11 +89,12 @@
     padding: 12px 36px;
     border: none;
     border-radius: 4px;
-    background-color: #4CAF50;
-    color: white;
+    color: rgb(240, 127, 22);
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold;
     transition: background-image 0.3s;
+    border: 3px solid #dd7b1f;
 }
 
 .loginBtn{
@@ -109,10 +110,10 @@
     border: none;
     border-radius: 4px;
     background-color: #fff;
-    color: #000;
+    color: #584f4f;
     margin-bottom: 12px;
     cursor: pointer;
-    border: 1px solid #4CAF50;
+    border: 3px solid #dd7b1f;
 }
 
 /* Social button style for the last button
