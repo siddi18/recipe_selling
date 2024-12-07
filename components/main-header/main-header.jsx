@@ -8,7 +8,6 @@ import NavLinks from './nav-link';
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import RotateLoader from "react-spinners/RotateLoader";
 import Spinner from '../Spinner';
 
 export default function MainHeader() {
